@@ -15,18 +15,19 @@ public:
 		Constructor que recibe como parametro un string que contiene el grafo en
 		un formato crudo o texto plano en otras palabras.
 	*/
+	
 	Graph(string, bool);
 
 	/*
 		Funcion que nos permite imprimir en consola los vertices acompanados de sus etiquetas y las aristas en
 		formato de tabla o matriz.
 	*/
-	void print();
+	string print();
 	/*
 		Funcion que permite imprimir en consola los vertices y las aristas, pero en
 		este caso imprime las aristas mostrando el vertice y luego todas sus aristas.
 	*/
-	void printAdjacencyMatrix();
+	string printAdjacencyMatrix();
 
 	bool addVertexTag(const char*, const char*);
 

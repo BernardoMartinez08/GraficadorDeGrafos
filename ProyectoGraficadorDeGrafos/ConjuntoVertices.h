@@ -4,6 +4,10 @@
 
 #include "Vertice.h"
 
+#include <iostream>
+
+using namespace std;
+
 class VertexSet {
 public:
 	/*
@@ -21,7 +25,7 @@ public:
 		Funcion que imprime en consola el conjunto de vertices con su formato
 		(vertice, etiqueta).
 	*/
-	void print();
+	string print();
 	/*
 		Funcion que devuelve el tamano total del conjunto de aristas.
 	*/

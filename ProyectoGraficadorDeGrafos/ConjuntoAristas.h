@@ -3,6 +3,9 @@
 #define ARISTAS_H
 
 #include "Arista.h"
+#include <iostream>
+
+using namespace std;
 
 class EdgesSet {
 public:
@@ -19,7 +22,7 @@ public:
 	/*
 		Funcion que imprime en consola el conjunto de aristas.
 	*/
-	void print();
+	string print();
 	/*
 		Funcion que devuelve el tamano total del conjunto de aristas.
 	*/

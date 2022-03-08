@@ -138,7 +138,7 @@ bool Graph::addVertexTag(const char* vertice, const char* tag)
 	Si los conjuntos estan vacios se indica lo mismo y se imprimen conjuntos vacios, luego ademas si un 
 	grafo no tiene aristas se indica lo mismo y la matriz no se imprime.
 */
-void Graph::print() {
+string Graph::print() {
 	if (edges == nullptr)
 		edges = new EdgesSet();
 
@@ -147,42 +147,11 @@ void Graph::print() {
 
 	int graphSize = vertices->size();
 
-	cout << "\n\nGrafo: \nG = ( ";
-	vertices->print();
-	cout << ", ";
-	edges->print();
-	cout << " )";
+	string texto = "";
+
+	texto += "\n\nGrafo: \nG = ( " + vertices->print() + ", " + edges->print() + " )";
 	
-	cout << "\n\nAristas: \n";
-	if (vertices->size() != 0 && edges->size() != 0) {
-		cout << setw(3) << " ";
-
-		Vertex* actual = vertices->getFirst();
-		do {
-			cout << setw(3) << " " << actual->getValue() << "  ";
-			actual = actual->getNext();
-
-		} while (actual != vertices->getFirst());
-		cout << "\n";
-
-		actual = vertices->getFirst();
-		int x = 0;
-		do {
-			cout << setw(3) << actual->getValue();
-
-			for (int i = 0; i < graphSize; i++) {
-				cout << setw(3) << "[ " << adjacencyMatrix[x][i] << " ]";
-			}
-			cout << endl;
-
-			actual = actual->getNext();
-
-			x++;
-		} while (actual != vertices->getFirst());
-	}
-	else {
-		cout << "\n[ empty ]";
-	}
+	return texto;
 }
 
 
@@ -246,34 +215,33 @@ vector<vector<const char*>> Graph::getAdjacencyMatrix() {
 	vertice seguido de los demas vertices con los que tiene una conexion en el
 	formato [vertice] ----> [vertice].....
 */
-void Graph::printAdjacencyMatrix() {
+string Graph::printAdjacencyMatrix() {
 	vector<vector<const char*>> _lista = getAdjacencyMatrix();
 	int graphSize = vertices->size();
 
-	cout << "\n\nLISTA DE ADYACENCIA\n\n";
+	string texto = "";
 
-	cout << "Vertices: ";
-	vertices->print();
+	texto += "\n\nLISTA DE ADYACENCIA\n\nVertices: " + vertices->print() + "\n\nConexiones: \n";
 
-	cout << "\n\nConexiones: \n";
 	if (vertices->size() != 0 && edges->size() != 0) {
 		int x = 0;
 		Vertex* actual = vertices->getFirst();
 		do {
-			cout << setw(3) << actual->getValue() << "--->";
+			texto += "   " + (string)actual->getValue() + "--->";
 			for (int i = 0; i < _lista[x].size(); i++) {
-				cout << setw(3) << "[ " << _lista[x][i] << " ]";
+				texto += "   [ " + (string)(_lista[x][i]) + " ]";
 			}
-			cout << endl;
-
+			texto += "\n";
 			x++;
 			actual = actual->getNext();
 
 		} while (actual != vertices->getFirst());
 	}
 	else {
-		cout << "\n[ empty ]";
+		texto += "\n[ empty ]";
 	}
+
+	return texto;
 }
 
 /*

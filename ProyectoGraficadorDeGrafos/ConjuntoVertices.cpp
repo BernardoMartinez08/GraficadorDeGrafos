@@ -97,27 +97,30 @@ bool VertexSet::belong(const char* _valor) {
 	entre llaves {}, el par ordenado esta conformado por el vertice seguido de su tag, si no se le ha asignado un 
 	tag a algun vertice este se acompana con el tag "empty".
 */
-void VertexSet::print() {
+string VertexSet::print() {
+	string texto = "";
 	if (empty()) {
-		cout << "{ vacio }";
-		return;
+		texto = "{ vacio }";
+		return texto;
 	}
 
 	Vertex* actual = first;
-	cout << "{ ";
+	texto += "{ ";
 	do {
 		if (actual != first)
-			cout << " , ";
+			texto += " , ";
 
 		if(actual->getTag() != nullptr)
-			cout << "( " << actual->getValue() << ", " << actual->getTag() << " )";
+			texto += "( " + (string)actual->getValue() + ", " + actual->getTag() + " )";
 		else
-			cout << "( " << actual->getValue() << ", " << "empty )";
+			texto += "( " + (string)actual->getValue() + ", " + "empty )";
 
 		actual = actual->getNext();
 	} while (actual != first);
 
-	cout << " }";
+	texto += " }";
+	
+	return texto;
 }
 
 /*

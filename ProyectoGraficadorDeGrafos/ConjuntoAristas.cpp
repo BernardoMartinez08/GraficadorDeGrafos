@@ -71,24 +71,28 @@ bool EdgesSet::add(const char* _valorX, const char* _valorY) {
 	tesis (x,y) si existen varias aristas estas van separadas por una coma, y al final estas estan encerradas
 	entre llaves {}.
 */
-void EdgesSet::print() {
+string EdgesSet::print() {
+	string texto = "";
+
 	if (empty()) {
-		cout << "{ vacio }";
-		return;
+		texto = "{ vacio }";
+		return texto;
 	}
 
 	Edge* actual = first;
-	cout << "{ ";
+	texto += "{ ";
 	do {
 		if (actual != first)
-			cout << " , ";
+			texto += " , ";
 
 		
-		cout << "( " << actual->getValueX() << ", " << actual->getValueY() << " )";
+		texto += "( " + (string)actual->getValueX() + ", " + (string)actual->getValueY() + " )";
 		actual = actual->getNext();
 	} while (actual != first);
 
-	cout << " }";
+	texto += " }";
+
+	return texto;
 }
 
 /*
