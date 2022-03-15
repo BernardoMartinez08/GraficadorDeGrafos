@@ -5,6 +5,7 @@
 #include "Vertice.h"
 
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -47,6 +48,12 @@ public:
 		conjunto de vertices.
 	*/
 	bool belong(const char*);
+
+	vector<int> posicionesX;
+	vector<int> posicionesY;
+
+	int generatePosition(char filtro);
+
 private:
 	//Apuntador al primer vertice del conjunto.
 	Vertex* first;
@@ -57,5 +64,7 @@ private:
 		Funcion que nos devulve si el conjunto esta vacio o no.
 	*/
 	bool empty();
+
+	bool noExistePos(int _pos, char filtro);
 };
 #endif // ! VERTICES_H

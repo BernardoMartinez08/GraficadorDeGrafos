@@ -2,6 +2,7 @@
 #include "Grafo.h"
 #include <iostream>
 #include <fstream>
+#include <windows.h>
 
 using namespace std;
 
@@ -55,7 +56,8 @@ namespace ProyectoGraficadorDeGrafos {
 
 	private: System::Windows::Forms::Button^ btManual;
 	private: System::Windows::Forms::Button^ btInsetar;
-	private: System::Windows::Forms::Button^ btNuevo;
+
+
 	private: System::Windows::Forms::RichTextBox^ txtGrafoTexto;
 	private: System::Windows::Forms::RichTextBox^ txtGrafoConexiones;
 
@@ -64,6 +66,10 @@ namespace ProyectoGraficadorDeGrafos {
 	private: System::Windows::Forms::Label^ label5;
 	private: System::Windows::Forms::Label^ label6;
 	private: System::Windows::Forms::ComboBox^ cboTipo;
+	private: System::Windows::Forms::Button^ btNuevo;
+
+
+
 
 
 
@@ -84,7 +90,6 @@ namespace ProyectoGraficadorDeGrafos {
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->plGrafo = (gcnew System::Windows::Forms::Panel());
 			this->gbDatosGrafo = (gcnew System::Windows::Forms::GroupBox());
-			this->btNuevo = (gcnew System::Windows::Forms::Button());
 			this->btInsetar = (gcnew System::Windows::Forms::Button());
 			this->btLimpiarAristas = (gcnew System::Windows::Forms::Button());
 			this->btLimpiarVertices = (gcnew System::Windows::Forms::Button());
@@ -100,6 +105,7 @@ namespace ProyectoGraficadorDeGrafos {
 			this->label5 = (gcnew System::Windows::Forms::Label());
 			this->label6 = (gcnew System::Windows::Forms::Label());
 			this->cboTipo = (gcnew System::Windows::Forms::ComboBox());
+			this->btNuevo = (gcnew System::Windows::Forms::Button());
 			this->gbDatosGrafo->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -124,7 +130,6 @@ namespace ProyectoGraficadorDeGrafos {
 			// 
 			// gbDatosGrafo
 			// 
-			this->gbDatosGrafo->Controls->Add(this->btNuevo);
 			this->gbDatosGrafo->Controls->Add(this->btInsetar);
 			this->gbDatosGrafo->Controls->Add(this->btLimpiarAristas);
 			this->gbDatosGrafo->Controls->Add(this->btLimpiarVertices);
@@ -136,23 +141,13 @@ namespace ProyectoGraficadorDeGrafos {
 			this->gbDatosGrafo->Font = (gcnew System::Drawing::Font(L"Candara", 11.25F, static_cast<System::Drawing::FontStyle>((System::Drawing::FontStyle::Bold | System::Drawing::FontStyle::Italic)),
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
 			this->gbDatosGrafo->ForeColor = System::Drawing::Color::Navy;
-			this->gbDatosGrafo->Location = System::Drawing::Point(17, 166);
+			this->gbDatosGrafo->Location = System::Drawing::Point(17, 222);
 			this->gbDatosGrafo->Name = L"gbDatosGrafo";
 			this->gbDatosGrafo->Size = System::Drawing::Size(314, 572);
 			this->gbDatosGrafo->TabIndex = 2;
 			this->gbDatosGrafo->TabStop = false;
 			this->gbDatosGrafo->Text = L"Ingreso del Grafo:";
 			this->gbDatosGrafo->Visible = false;
-			// 
-			// btNuevo
-			// 
-			this->btNuevo->BackColor = System::Drawing::Color::LightSteelBlue;
-			this->btNuevo->Location = System::Drawing::Point(24, 511);
-			this->btNuevo->Name = L"btNuevo";
-			this->btNuevo->Size = System::Drawing::Size(114, 36);
-			this->btNuevo->TabIndex = 8;
-			this->btNuevo->Text = L"NUEVO GRAFO";
-			this->btNuevo->UseVisualStyleBackColor = false;
 			// 
 			// btInsetar
 			// 
@@ -321,12 +316,27 @@ namespace ProyectoGraficadorDeGrafos {
 			this->cboTipo->Size = System::Drawing::Size(242, 23);
 			this->cboTipo->TabIndex = 14;
 			// 
+			// btNuevo
+			// 
+			this->btNuevo->BackColor = System::Drawing::Color::LightSteelBlue;
+			this->btNuevo->Font = (gcnew System::Drawing::Font(L"Candara", 9.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->btNuevo->ForeColor = System::Drawing::Color::Navy;
+			this->btNuevo->Location = System::Drawing::Point(17, 166);
+			this->btNuevo->Name = L"btNuevo";
+			this->btNuevo->Size = System::Drawing::Size(114, 36);
+			this->btNuevo->TabIndex = 9;
+			this->btNuevo->Text = L"NUEVO GRAFO";
+			this->btNuevo->UseVisualStyleBackColor = false;
+			this->btNuevo->Click += gcnew System::EventHandler(this, &GrafoDisplay::btNuevo_Click);
+			// 
 			// GrafoDisplay
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::SkyBlue;
 			this->ClientSize = System::Drawing::Size(1340, 968);
+			this->Controls->Add(this->btNuevo);
 			this->Controls->Add(this->cboTipo);
 			this->Controls->Add(this->label6);
 			this->Controls->Add(this->label5);
@@ -373,6 +383,15 @@ namespace ProyectoGraficadorDeGrafos {
 			return grafo;
 		}
 
+	//Funcion para convertir String^ a string
+		void MarshalString(String^ s, string& os) {
+			using namespace Runtime::InteropServices;
+			const char* chars =
+				(const char*)(Marshal::StringToHGlobalAnsi(s)).ToPointer();
+			os = chars;
+			Marshal::FreeHGlobal(IntPtr((void*)chars));
+		}
+
 
 	private: System::Void btImportar_Click(System::Object^ sender, System::EventArgs^ e) {
 		gbDatosGrafo->Visible = false;
@@ -383,9 +402,6 @@ namespace ProyectoGraficadorDeGrafos {
 		txtGrafoTexto->Text = "";
 
 		string grafotxt;
-		Label^ importando = gcnew Label();
-		importando->Text = "Importando el grafo del archivo, solo se aceptan grafos en el formato ({V},{E})";
-		plGrafo->Controls->Add(importando);
 
 		grafotxt = importGraph();
 
@@ -403,8 +419,6 @@ namespace ProyectoGraficadorDeGrafos {
 
 		txtGrafoTexto->Text = impresion;
 		txtGrafoConexiones->Text = impresionConexiones;
-
-		plGrafo->Controls->Remove(importando);
 	}
 
 
@@ -429,7 +443,41 @@ namespace ProyectoGraficadorDeGrafos {
 
 
 	private: System::Void btInsetar_Click(System::Object^ sender, System::EventArgs^ e) {
-		
+		string grafotxt;
+
+		string vertices = "";
+		MarshalString(txtVertices->Text, vertices);
+
+		string aristas = "";
+		MarshalString(txtAristas->Text, aristas);
+
+		grafotxt = "(" + vertices + "," + aristas + ")";
+
+		bool _dirigido = false;
+
+		if (cboTipo->SelectedItem == "DIRIGIDO")
+			_dirigido = true;
+		else
+			_dirigido = false;
+
+		grafo = new Graph(grafotxt, _dirigido);
+
+		String^ impresion = gcnew String(grafo->print().c_str());
+		String^ impresionConexiones = gcnew String(grafo->printAdjacencyMatrix().c_str());
+
+		txtGrafoTexto->Text = impresion;
+		txtGrafoConexiones->Text = impresionConexiones;
 	}
+
+
+	private: System::Void btNuevo_Click(System::Object^ sender, System::EventArgs^ e) {
+		grafo = nullptr;
+		txtVertices->Text = "Ejemplo: {1,2,....}";
+		txtAristas->Text = "Ejemplo: {(1,2),(2,3).....}";
+		txtGrafoConexiones->Text = "Ejemplo:\n1---- > [2]\n2---- > [1][3]\n......";
+		txtGrafoTexto->Text = "Ejemplo: G = ({1,2,3......},{(1,2),(2,3).....})";
+
+	}
+
 };
 }

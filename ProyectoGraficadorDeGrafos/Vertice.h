@@ -1,6 +1,9 @@
 #pragma once
+
+
 #ifndef  VERTICE_H
 #define VERTICE_H
+
 
 class Vertex {
 public:
@@ -53,6 +56,10 @@ public:
 		Funcion que devuelve el apuntador al anterior vertice.
 	*/
 	Vertex* getPrevious();
+
+	int posicionX = 0;
+	int posicionY = 0;
+
 
 private:
 	//Apuntador al valor del verrtice

@@ -36,7 +36,6 @@ void Graph::addVertex(const char* _verticeID) {
 
 	vertices->add(_verticeID);
 
-
 	//actualizacion de filas en aristas, actualiza el numero de filas
 	int graphSize = vertices->size() - 1;
 
@@ -227,9 +226,9 @@ string Graph::printAdjacencyMatrix() {
 		int x = 0;
 		Vertex* actual = vertices->getFirst();
 		do {
-			texto += "   " + (string)actual->getValue() + "--->";
+			texto += "\t" + (string)actual->getValue() + "--->";
 			for (int i = 0; i < _lista[x].size(); i++) {
-				texto += "   [ " + (string)(_lista[x][i]) + " ]";
+				texto += "\t[ " + (string)(_lista[x][i]) + " ]";
 			}
 			texto += "\n";
 			x++;
@@ -477,3 +476,6 @@ bool Graph::verifyVertexWay(string _expr)
 
 	return existWay;
 }
+
+
+

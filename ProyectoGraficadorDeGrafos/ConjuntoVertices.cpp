@@ -1,5 +1,6 @@
 #include "ConjuntoVertices.h"
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -59,6 +60,9 @@ bool VertexSet::add(const char* _valor) {
 			return true;
 		}
 	}
+
+	nuevo->posicionX = generatePosition('x');
+	nuevo->posicionY = generatePosition('y');
 
 	return false;
 }
@@ -169,4 +173,48 @@ bool VertexSet::tag(const char* _valor, const char* _tag)
 	} while (actual != first);
 
 	return false;
+}
+
+
+bool VertexSet::noExistePos(int _pos, char filtro) {
+	vector<int> buscar;
+
+	if (filtro == 'x')
+		buscar = posicionesX;
+	else if (filtro == 'y')
+		buscar = posicionesY;
+
+	for (int i = 0; i < buscar.size(); i++) {
+		if (buscar[i] == _pos)
+			return true;
+	}
+
+	return false;
+}
+
+int VertexSet::generatePosition(char filtro) {
+	int _pos = 0;
+
+	bool acepted = false;
+
+	while (acepted == false) {
+		if (filtro == 'x')
+			_pos = 1 + rand() % (970 - 1);
+		else if (filtro == 'y')
+			_pos = 1 + rand() % (651 - 1);
+
+		cout << "\n\nposition: " << _pos;
+		if (!noExistePos(_pos, filtro) && !noExistePos(_pos + 35, filtro) && !noExistePos(_pos - 35, filtro)) {
+			acepted = true;
+
+			if (filtro == 'x')
+				posicionesX.push_back(_pos);
+			else if (filtro == 'y')
+				posicionesY.push_back(_pos);
+
+			return _pos;
+		}
+	}
+
+	return -1;
 }
