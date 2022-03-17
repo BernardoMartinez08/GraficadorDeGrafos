@@ -88,8 +88,10 @@ private:
 	*/
 	bool validar();
 
-	bool vertexSimpleCicle(const char*);
-	bool vertexSeftCicle(const char*);
+	bool vertexSimpleCicle();
+	bool vertexSeftCicle();
+
+	void setChar(char*, const char*);
 
 	vector<string> convertToList(string);
 };

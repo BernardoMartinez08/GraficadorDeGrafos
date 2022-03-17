@@ -173,7 +173,7 @@ int Graph::getVertexIndex(const char* _valor) {
 		}
 
 		x++;
-		actual = actual->getNext();;
+		actual = actual->getNext();
 
 	} while (actual != vertices->getFirst());
 
@@ -199,7 +199,7 @@ vector<vector<const char*>> Graph::getAdjacencyMatrix() {
 				listaAdyacencia[i].push_back(actual->getValue());
 
 			x++;
-			actual = actual->getNext();;
+			actual = actual->getNext();
 
 		} while (actual != vertices->getFirst());
 	}
@@ -459,11 +459,6 @@ bool Graph::verifyVertexWay(string _expr)
 	vector<string> vertices = convertToList(_expr);
 	bool existWay = false;
 
-	auto toString = [](char a) {
-		string s(1, a);
-		return s;
-	};
-
 	for (int i = 0; i < vertices.size(); i++) {
 		if ((i + 1) < vertices.size()) {
 			if (edges->belong(vertices[i].c_str(), vertices[i + 1].c_str())) {
@@ -475,6 +470,82 @@ bool Graph::verifyVertexWay(string _expr)
 	}
 
 	return existWay;
+}
+
+
+bool Graph::vertexSeftCicle()
+{
+	if (vertices->size() == 0) {
+		return false;
+	}
+
+	Vertex* actual = vertices->getFirst();
+	do {
+		if (edges->belong(actual->getValue(), actual->getValue()) == 0) {
+			return true;
+		}
+
+		actual = actual->getNext();;
+
+	} while (actual != vertices->getFirst());
+
+	return false;
+}
+
+
+void Graph::setChar(char* original, const char* nuevo) {
+	if (original != nullptr)
+		delete original;
+
+	original = new char[strlen(nuevo)];
+	strcpy_s(original, strlen(nuevo) + 1, nuevo);
+}
+
+
+bool Graph::vertexSimpleCicle()
+{
+	if (edges->size() == 0) {
+		return false;
+	}
+
+	for (int i = 0; i < edges->size(); i++) {
+		Edge* auxFirst = edges->getFirst();
+		
+		for (int j = 0; j < i; j++) {
+			auxFirst = auxFirst->getNext();
+		}
+
+		int count = 0;
+
+		Edge* actual = auxFirst;
+
+		char* primero = nullptr;
+		setChar(primero, actual->getValueX());
+		char* siguiente = nullptr;
+		setChar(siguiente, actual->getValueY());
+
+		do {
+			if (actual->getValueX() == siguiente) {
+				count++;
+
+				if (actual->getValueY() == primero) {
+					if (count >= 3) {
+						return true;
+					}
+					else {
+						count = 0;
+					}
+				}
+
+				setChar(siguiente, actual->getNext()->getValueY());
+			}
+
+			actual = actual->getNext();
+
+		} while (actual != auxFirst);
+	}
+
+	return false;
 }
 
 
