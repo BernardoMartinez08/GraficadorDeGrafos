@@ -2,6 +2,8 @@
 #include <iostream>
 #include <vector>
 
+#include <string>
+
 using namespace std;
 
 
@@ -46,6 +48,9 @@ bool VertexSet::add(const char* _valor) {
 		last = nuevo;
 		last->setNext(first);
 		first->setPrevious(last);
+
+		nuevo->posicionX = generatePosition('x');
+		nuevo->posicionY = generatePosition('y');
 		return true;
 	}
 	else
@@ -57,12 +62,15 @@ bool VertexSet::add(const char* _valor) {
 
 			last->setNext(first);
 			first->setPrevious(last);
+
+			nuevo->posicionX = generatePosition('x');
+			nuevo->posicionY = generatePosition('y');
+
 			return true;
 		}
 	}
 
-	nuevo->posicionX = generatePosition('x');
-	nuevo->posicionY = generatePosition('y');
+	//cout << _valor << "( valor x: " << nuevo->posicionX << " , valor y: " << nuevo->posicionY << " )\n\n";
 
 	return false;
 }
@@ -89,6 +97,26 @@ bool VertexSet::belong(const char* _valor) {
 	} while (actual != first);
 
 	return false;
+}
+
+
+Vertex* VertexSet::getVertex(const char* _valor) {
+	if (empty()) {
+		cout << "\nConjunto esta vacio!\n";
+		return nullptr;
+	}
+
+	Vertex* actual = first;
+	do {
+		if (strcmp(actual->getValue(), _valor) == 0) {
+			return actual;
+		}
+
+		actual = actual->getNext();;
+
+	} while (actual != first);
+
+	return nullptr;
 }
 
 /*
@@ -197,13 +225,14 @@ int VertexSet::generatePosition(char filtro) {
 
 	bool acepted = false;
 
+	srand(time(NULL));
+
 	while (acepted == false) {
 		if (filtro == 'x')
 			_pos = 1 + rand() % (970 - 1);
 		else if (filtro == 'y')
 			_pos = 1 + rand() % (651 - 1);
 
-		cout << "\n\nposition: " << _pos;
 		if (!noExistePos(_pos, filtro) && !noExistePos(_pos + 35, filtro) && !noExistePos(_pos - 35, filtro)) {
 			acepted = true;
 

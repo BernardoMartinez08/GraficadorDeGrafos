@@ -3,6 +3,10 @@
 #include <iostream>
 #include <fstream>
 #include <windows.h>
+#include "Arista.h"
+#include "Vertice.h"
+#include "ConjuntoAristas.h"
+#include "ConjuntoVertices.h"
 
 using namespace std;
 
@@ -123,6 +127,8 @@ namespace ProyectoGraficadorDeGrafos {
 			// 
 			// plGrafo
 			// 
+			this->plGrafo->Font = (gcnew System::Drawing::Font(L"Arial", 20.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
 			this->plGrafo->Location = System::Drawing::Point(350, 12);
 			this->plGrafo->Name = L"plGrafo";
 			this->plGrafo->Size = System::Drawing::Size(970, 651);
@@ -393,6 +399,70 @@ namespace ProyectoGraficadorDeGrafos {
 		}
 
 
+	//Funcion para graficar Vertices
+		void drawVertex() {
+			if (grafo->getVertexSet()->size() == 0) {
+				return;
+			}
+
+			Vertex* actual = grafo->getVertexSet()->getFirst();
+			do {
+				Graphics^ nodo;
+				nodo = plGrafo->CreateGraphics();
+
+				int coordenadasX = actual->posicionX;
+				int coordenadasY = actual->posicionY;
+
+				String^ tag = gcnew String(actual->getValue());
+
+				nodo->FillEllipse(Brushes::DarkBlue, coordenadasX, coordenadasY, 35, 35);
+				nodo->DrawString(tag, Font, Brushes::White, coordenadasX + 5, coordenadasY + 10);
+				
+				actual = actual->getNext();
+
+			} while (actual != grafo->getVertexSet()->getFirst());
+		}
+
+	//Funcion para graficar Aristas
+		void drawEdges() {
+			if (grafo->getEdgesSet()->size() == 0) {
+				return;
+			}
+
+			Edge* actual = grafo->getEdgesSet()->getFirst();
+			do {
+				Graphics^ nodo;
+				nodo = plGrafo->CreateGraphics();
+
+				Vertex* X = grafo->getVertexSet()->getVertex(actual->getValueX());
+				Vertex* Y = grafo->getVertexSet()->getVertex(actual->getValueY());
+
+				int x1 = 0;
+				int x2 = 0;
+
+				int y1 = 0;
+				int y2 = 0;
+
+				if (X != nullptr && Y != nullptr) {
+					cout << "aqui";
+					x1 = X->posicionX;
+				    x2 = Y->posicionX;
+
+					y1 = X->posicionY;
+					y2 = Y->posicionY;
+				}
+				else {
+					cout << "aqui 2";
+				}
+
+				nodo->DrawLine(Pens::Red, x1 + 17, y1 + 17, x2 + 17, y2 + 17);
+
+				actual = actual->getNext();
+
+			} while (actual != grafo->getEdgesSet()->getFirst());
+		}
+
+
 	private: System::Void btImportar_Click(System::Object^ sender, System::EventArgs^ e) {
 		gbDatosGrafo->Visible = false;
 		gbDatosGrafo->Enabled = false;
@@ -419,6 +489,9 @@ namespace ProyectoGraficadorDeGrafos {
 
 		txtGrafoTexto->Text = impresion;
 		txtGrafoConexiones->Text = impresionConexiones;
+
+		drawEdges();
+		drawVertex();
 	}
 
 

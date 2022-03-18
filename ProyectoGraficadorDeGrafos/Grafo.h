@@ -37,6 +37,9 @@ public:
 
 	bool getVertexCicle(const char*);
 
+	VertexSet* getVertexSet();
+	EdgesSet* getEdgesSet();
+
 private:
 	//string que almacena el grafo en formato de texto plano.
 	string rootGraph = "";

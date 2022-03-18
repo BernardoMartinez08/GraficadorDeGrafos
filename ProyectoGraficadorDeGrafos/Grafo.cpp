@@ -23,6 +23,15 @@ Graph::Graph(string _rootGraph, bool _dirigido): vertices(nullptr), edges(nullpt
 	convert();
 }
 
+VertexSet* Graph::getVertexSet() {
+	return this->vertices;
+}
+
+
+EdgesSet* Graph::getEdgesSet() {
+	return this->edges;
+}
+
 /*
 	Funcion para agregar un nuevo vertice, pide como parametros el valor
 	que representan el valor del vertice, pero no pide el valor para la

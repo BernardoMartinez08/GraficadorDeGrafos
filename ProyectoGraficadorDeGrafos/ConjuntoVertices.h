@@ -49,6 +49,8 @@ public:
 	*/
 	bool belong(const char*);
 
+	Vertex* getVertex(const char*);
+
 	vector<int> posicionesX;
 	vector<int> posicionesY;
 
