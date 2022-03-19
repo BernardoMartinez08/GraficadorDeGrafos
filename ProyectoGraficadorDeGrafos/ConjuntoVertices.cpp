@@ -229,9 +229,9 @@ int VertexSet::generatePosition(char filtro) {
 
 	while (acepted == false) {
 		if (filtro == 'x')
-			_pos = 1 + rand() % (970 - 1);
+			_pos = 1 + rand() % (1200 - 1);
 		else if (filtro == 'y')
-			_pos = 1 + rand() % (651 - 1);
+			_pos = 1 + rand() % (640 - 1);
 
 		if (!noExistePos(_pos, filtro) && !noExistePos(_pos + 35, filtro) && !noExistePos(_pos - 35, filtro)) {
 			acepted = true;

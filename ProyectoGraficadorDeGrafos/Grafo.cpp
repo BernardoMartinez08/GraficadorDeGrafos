@@ -411,13 +411,11 @@ int Graph::getVertexGrade(const char* _valor) {
 		Vertex* actual = vertices->getFirst();
 		do {
 			if (strcmp(actual->getValue(), _valor) == 0) {
-				cout << "\n" << actual->getValue() << "--->";
 				for (int i = 0; i < _lista[x].size(); i++) {
-					cout << setw(3) << "[ " << _lista[x][i] << " ]";
 					grade++;
 				}
 
-				cout << "\n\nEl grado total de: " << actual->getValue() << " es igual a: " << grade;
+				return grade;
 			}
 			x++;
 			actual = actual->getNext();
@@ -427,6 +425,8 @@ int Graph::getVertexGrade(const char* _valor) {
 	else {
 		return grade;
 	}
+
+	return -1;
 }
 
 
@@ -490,7 +490,7 @@ bool Graph::vertexSeftCicle()
 
 	Vertex* actual = vertices->getFirst();
 	do {
-		if (edges->belong(actual->getValue(), actual->getValue()) == 0) {
+		if (edges->belong(actual->getValue(), actual->getValue()) == true) {
 			return true;
 		}
 
@@ -503,9 +503,6 @@ bool Graph::vertexSeftCicle()
 
 
 void Graph::setChar(char* original, const char* nuevo) {
-	if (original != nullptr)
-		delete original;
-
 	original = new char[strlen(nuevo)];
 	strcpy_s(original, strlen(nuevo) + 1, nuevo);
 }
@@ -528,33 +525,39 @@ bool Graph::vertexSimpleCicle()
 
 		Edge* actual = auxFirst;
 
-		char* primero = nullptr;
-		setChar(primero, actual->getValueX());
-		char* siguiente = nullptr;
-		setChar(siguiente, actual->getValueY());
+		char* primero = actual->getValueX();
+		char* siguiente = actual->getValueY();
+
+		cout << "\n\nprimero: " << primero << " siguiente: " << siguiente;
 
 		do {
-			if (actual->getValueX() == siguiente) {
-				count++;
+			if (actual->getValueX() == primero || actual->getValueX() == siguiente) {
 
+				cout << "\n\nprimero 1: " << actual->getValueX() << " siguiente 2: " << actual->getValueY() << " contador: " << count;
+				count++;
 				if (actual->getValueY() == primero) {
 					if (count >= 3) {
 						return true;
 					}
-					else {
-						count = 0;
-					}
 				}
 
-				setChar(siguiente, actual->getNext()->getValueY());
+				if (actual->getValueX() == siguiente)
+					siguiente = actual->getNext()->getValueX();
 			}
 
 			actual = actual->getNext();
-
 		} while (actual != auxFirst);
 	}
 
 	return false;
+}
+
+bool Graph::getVertexCicle()
+{
+	if (vertexSeftCicle() || vertexSimpleCicle())
+		return true;
+	else
+		return false;
 }
 
 

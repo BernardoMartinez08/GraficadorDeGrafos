@@ -34,8 +34,9 @@ public:
 	int getVertexGrade(const char*);
 
 	bool verifyVertexWay(string);
+	vector<string> convertToList(string);
 
-	bool getVertexCicle(const char*);
+	bool getVertexCicle();
 
 	VertexSet* getVertexSet();
 	EdgesSet* getEdgesSet();
@@ -95,8 +96,6 @@ private:
 	bool vertexSeftCicle();
 
 	void setChar(char*, const char*);
-
-	vector<string> convertToList(string);
 };
 
 #endif // !GRAFO_H
